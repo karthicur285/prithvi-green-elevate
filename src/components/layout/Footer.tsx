@@ -2,75 +2,98 @@ import { Phone, Mail, MapPin } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-foreground text-background">
-      <div className="container-custom py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+    <footer className="bg-[hsl(215,30%,12%)] text-[hsl(0,0%,95%)]">
+      <div className="container-custom py-12 md:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+          {/* Logo & description */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <div className="w-9 h-9 bg-primary rounded-full flex items-center justify-center">
                 <span className="text-primary-foreground font-heading font-bold text-sm">P</span>
               </div>
-              <span className="font-heading font-bold text-lg text-background">
-                PRITHVI GreenTech
+              <span className="font-heading font-bold text-lg tracking-wide">
+                <span className="text-[hsl(0,0%,95%)]">PRITHVI</span>{" "}
+                <span className="text-primary">Green</span>
+                <span className="text-[hsl(0,0%,95%)]">Tech</span>
               </span>
             </div>
-            <p className="text-background/70 text-sm font-body leading-relaxed">
-              Leading manufacturer of eco-friendly elevator solutions. Engineering excellence for smart, safe, and sustainable vertical transportation.
+            <p className="text-[hsl(0,0%,60%)] text-sm font-body leading-relaxed mt-3">
+              Innovating vertical transportation with sustainable, high-performance elevator components for the modern world.
             </p>
-          </div>
-
-          <div>
-            <h4 className="font-heading font-semibold text-base mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              {["Home", "About Us", "Services", "Products", "Contact"].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-background/70 hover:text-primary text-sm font-body transition-colors">
-                    {item}
-                  </a>
-                </li>
+            {/* Social Icons */}
+            <div className="flex items-center gap-3 mt-5">
+              {["fb", "ig", "in"].map((s) => (
+                <a
+                  key={s}
+                  href="#"
+                  className="w-9 h-9 rounded-full border border-[hsl(0,0%,30%)] flex items-center justify-center hover:border-primary hover:bg-primary/10 transition-colors"
+                >
+                  <span className="text-[hsl(0,0%,60%)] text-xs font-body">{s}</span>
+                </a>
               ))}
-            </ul>
+            </div>
           </div>
 
+          {/* Quick Links */}
           <div>
-            <h4 className="font-heading font-semibold text-base mb-4">Products</h4>
-            <ul className="space-y-2">
-              {["Residential Elevators", "Commercial Elevators", "Door Operators", "Control Panels", "Safety Components"].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-background/70 hover:text-primary text-sm font-body transition-colors">
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-heading font-semibold text-base mb-4">Contact</h4>
+            <h4 className="font-heading font-semibold text-base mb-5 text-[hsl(0,0%,95%)]">Quick Links</h4>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-background/70 text-sm">
+              {["About Us", "Products", "Engineering", "Sustainability", "Contact"].map((item) => (
+                <li key={item}>
+                  <a href="#" className="text-[hsl(0,0%,60%)] hover:text-primary text-sm font-body transition-colors">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Products */}
+          <div>
+            <h4 className="font-heading font-semibold text-base mb-5 text-[hsl(0,0%,95%)]">Products</h4>
+            <ul className="space-y-3">
+              {["Traction Machines", "Door Systems", "Control Panels", "Safety Components", "Cabins & Finishes"].map((item) => (
+                <li key={item}>
+                  <a href="#" className="text-[hsl(0,0%,60%)] hover:text-primary text-sm font-body transition-colors">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="font-heading font-semibold text-base mb-5 text-[hsl(0,0%,95%)]">Contact</h4>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3 text-[hsl(0,0%,60%)] text-sm font-body">
                 <MapPin className="w-4 h-4 mt-0.5 text-primary shrink-0" />
-                Chennai, India
+                <span>123 Industrial Estate, Tech Hub City, Maharashtra, India – 400001</span>
               </li>
-              <li className="flex items-center gap-3 text-background/70 text-sm">
+              <li className="flex items-center gap-3 text-[hsl(0,0%,60%)] text-sm font-body">
                 <Phone className="w-4 h-4 text-primary shrink-0" />
-                +91 98765 43210
+                <span>+91 98765 43210</span>
               </li>
-              <li className="flex items-center gap-3 text-background/70 text-sm">
+              <li className="flex items-center gap-3 text-[hsl(0,0%,60%)] text-sm font-body">
                 <Mail className="w-4 h-4 text-primary shrink-0" />
-                info@prithvigreentech.com
+                <span>sales@prithvigreentech.com</span>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-background/10 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-background/50 text-sm font-body">
-            © 2026 Prithvi GreenTech Elevators. All rights reserved.
+        {/* Bottom bar */}
+        <div className="border-t border-[hsl(0,0%,20%)] mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-[hsl(0,0%,45%)] text-xs sm:text-sm font-body text-center sm:text-left">
+            © 2023 Prithvi Greentech Elevators Pvt Ltd. All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
-            <a href="#" className="text-background/50 hover:text-primary text-sm font-body transition-colors">Privacy Policy</a>
-            <a href="#" className="text-background/50 hover:text-primary text-sm font-body transition-colors">Terms of Service</a>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <a href="#" className="text-[hsl(0,0%,45%)] hover:text-primary text-xs sm:text-sm font-body transition-colors">
+              Privacy Policy
+            </a>
+            <a href="#" className="text-[hsl(0,0%,45%)] hover:text-primary text-xs sm:text-sm font-body transition-colors">
+              Terms of Service
+            </a>
           </div>
         </div>
       </div>
