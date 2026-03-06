@@ -31,21 +31,19 @@ const Header = () => {
     >
       <div className="container-custom flex items-center justify-between h-16 md:h-20">
         <a href="#home" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-heading font-bold text-sm">P</span>
-          </div>
-          <span className="font-heading font-bold text-lg">
-            <span className="text-primary">PRITHVI</span>{" "}
-            <span className="text-foreground">GreenTech</span>
-          </span>
-        </a>
+            <img 
+              src="/logo.png" 
+              alt="PRITHVI GreenTech Logo"
+              className="h-10 w-auto object-contain"
+            />
+          </a>
 
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="font-body text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
+              className="font-body text-[14px] font-bold text-foreground hover:text-primary transition-colors relative group"
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
