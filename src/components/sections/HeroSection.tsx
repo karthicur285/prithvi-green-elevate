@@ -28,7 +28,8 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section id="home" ref={sectionRef} className="relative h-screen min-h-[600px] overflow-hidden">
+    <section id="home" ref={sectionRef} className="relative h-screen min-h-[600px] max-h-[900px] overflow-hidden">
+      {/* Background slides */}
       {slides.map((slide, i) => (
         <div
           key={i}
@@ -37,28 +38,34 @@ const HeroSection = () => {
           <img
             src={slide}
             alt="Elevator"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
             style={{ transform: i === current ? "scale(1.05)" : "scale(1)", transition: "transform 5s ease-out" }}
           />
         </div>
       ))}
-      <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/50 to-transparent" />
 
+      {/* White/light gradient overlay from left - matching reference */}
+      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 md:via-background/70 to-transparent" />
+
+      {/* Content */}
       <div ref={textRef} className="relative z-10 container-custom h-full flex items-center">
-        <div className="max-w-xl text-background">
-          <p className="hero-heading font-heading text-base md:text-lg font-medium mb-2 opacity-0">
+        <div className="max-w-lg">
+          <p className="hero-heading font-heading text-sm md:text-base lg:text-lg font-medium text-foreground/70 mb-2 italic opacity-0">
             Elevating Spaces with
           </p>
-          <h1 className="hero-highlight font-heading text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 opacity-0">
+          <h1 className="hero-highlight font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-4 opacity-0">
             <span className="text-primary">Smart &amp;</span><br />
             <span className="text-primary">Sustainable</span><br />
-            <span className="text-background">Lift Solutions</span>
+            <span className="text-foreground">Lift Solutions</span>
           </h1>
-          <p className="hero-desc font-body text-sm md:text-base text-background/80 mb-8 max-w-md opacity-0">
-            High-performance residential, commercial &amp; industrial elevators engineered for
-            <span className="text-primary font-semibold"> safety, comfort, and energy efficiency.</span>
-          </p>
-          <button className="hero-btn btn-primary text-sm md:text-base opacity-0">
+          <div className="hero-desc flex items-start gap-3 mb-8 opacity-0">
+            <div className="w-0.5 h-16 bg-primary shrink-0 mt-1" />
+            <p className="font-body text-xs sm:text-sm md:text-base text-muted-foreground max-w-sm leading-relaxed">
+              High-performance residential, commercial &amp; industrial elevators engineered for{" "}
+              <span className="text-primary font-semibold">safety, comfort, and energy efficiency.</span>
+            </p>
+          </div>
+          <button className="hero-btn btn-primary text-xs sm:text-sm md:text-base opacity-0">
             Book Free Consultation <ArrowRight className="w-4 h-4" />
           </button>
 
@@ -67,7 +74,7 @@ const HeroSection = () => {
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
-                className={`w-3 h-3 rounded-full transition-all ${i === current ? "bg-primary scale-110" : "bg-background/40"}`}
+                className={`w-3 h-3 rounded-full transition-all ${i === current ? "bg-primary scale-110" : "bg-muted-foreground/30"}`}
               />
             ))}
           </div>
