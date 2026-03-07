@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -14,23 +14,35 @@ const steps = [
 ];
 
 const ProcessSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animate the vertical line growing
-      gsap.fromTo(".process-vertical-line", { scaleY: 0 }, {
-        scaleY: 1, duration: 1.5, ease: "power2.out",
-        scrollTrigger: { trigger: ".process-section", start: "top 70%", toggleActions: "play reverse play reverse" },
-      });
+      // Animate the SVG path drawing
+      const path = document.querySelector(".process-curve-path") as SVGPathElement;
+      if (path) {
+        const length = path.getTotalLength();
+        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+        gsap.to(path, {
+          strokeDashoffset: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 60%",
+            end: "bottom 40%",
+            scrub: 1,
+          },
+        });
+      }
 
       // Animate each step
       steps.forEach((_, i) => {
         const isRight = i % 2 === 0;
         gsap.fromTo(`.process-step-${i}`, {
           opacity: 0,
-          x: isRight ? 60 : -60,
-          scale: 0.9,
+          x: isRight ? 50 : -50,
         }, {
-          opacity: 1, x: 0, scale: 1, duration: 0.6, ease: "power2.out",
+          opacity: 1, x: 0, duration: 0.7, ease: "power2.out",
           scrollTrigger: {
             trigger: `.process-step-${i}`,
             start: "top 85%",
@@ -38,19 +50,8 @@ const ProcessSection = () => {
           },
         });
 
-        // Circle pop
         gsap.fromTo(`.process-circle-${i}`, { scale: 0, opacity: 0 }, {
-          scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: `.process-step-${i}`,
-            start: "top 85%",
-            toggleActions: "play reverse play reverse",
-          },
-        });
-
-        // Arrow fade
-        gsap.fromTo(`.process-arrow-${i}`, { opacity: 0, scale: 0.5 }, {
-          opacity: 1, scale: 1, duration: 0.3, delay: 0.2, ease: "power2.out",
+          scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)",
           scrollTrigger: {
             trigger: `.process-step-${i}`,
             start: "top 85%",
@@ -58,12 +59,12 @@ const ProcessSection = () => {
           },
         });
       });
-    });
+    }, sectionRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section className="process-section section-padding bg-background overflow-hidden">
+    <section ref={sectionRef} className="process-section section-padding bg-background overflow-hidden">
       <div className="container-custom">
         {/* Heading */}
         <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-16 md:mb-20">
@@ -71,82 +72,86 @@ const ProcessSection = () => {
           <span className="inline-block ml-2">→</span>
         </h2>
 
-        {/* Timeline */}
-        <div className="relative max-w-4xl mx-auto">
-          {/* Vertical center line */}
-          <div className="process-vertical-line absolute left-8 md:left-1/2 top-0 bottom-0 w-[2px] bg-primary/30 origin-top md:-translate-x-[1px]" />
+        {/* Timeline - Desktop */}
+        <div className="hidden md:block relative max-w-5xl mx-auto">
+          {/* SVG curved path connecting all circles */}
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            viewBox="0 0 800 1200"
+            preserveAspectRatio="none"
+            fill="none"
+            style={{ zIndex: 0 }}
+          >
+            <path
+              className="process-curve-path"
+              d="M 500 60 
+                 C 500 120, 300 120, 300 200
+                 C 300 280, 500 280, 500 360
+                 C 500 440, 300 440, 300 560
+                 C 300 640, 500 640, 500 720
+                 C 500 800, 300 800, 300 880
+                 C 300 960, 500 960, 500 1060"
+              stroke="hsl(var(--primary))"
+              strokeWidth="2.5"
+              strokeOpacity="0.35"
+              fill="none"
+            />
+          </svg>
 
-          {steps.map((step, i) => {
-            const isRight = i % 2 === 0; // right on desktop for even
+          <div className="relative z-10 space-y-16">
+            {steps.map((step, i) => {
+              const isRight = i % 2 === 0; // 01,03,05 on right; 02,04,06 on left
 
-            return (
-              <div
-                key={i}
-                className={`process-step-${i} relative flex items-center mb-16 md:mb-20 last:mb-0`}
-              >
-                {/* MOBILE: always left-aligned with circle on left */}
-                {/* DESKTOP: zigzag layout */}
+              return (
+                <div
+                  key={i}
+                  className={`process-step-${i} flex items-center gap-6 ${isRight ? "flex-row" : "flex-row-reverse"}`}
+                >
+                  {/* Spacer */}
+                  <div className="flex-1" />
 
-                {/* Desktop Left content area */}
-                <div className={`hidden md:flex flex-1 ${isRight ? "justify-end pr-12" : "justify-start pl-12"} ${isRight ? "order-1" : "order-3"}`}>
-                  {isRight ? (
-                    /* Empty left side for right-aligned items */
-                    <div />
-                  ) : (
-                    /* Text on left for left-aligned items */
-                    <div className="text-right max-w-xs">
-                      <h4 className="font-heading font-bold text-foreground text-lg mb-1">{step.title}</h4>
-                      <p className="font-body text-muted-foreground text-sm">{step.desc}</p>
-                    </div>
-                  )}
-                </div>
-
-                {/* Center circle with connector */}
-                <div className="order-2 relative z-10 flex items-center shrink-0 md:mx-0">
-                  {/* Left arrow/connector (desktop only, for right items) */}
-                  {isRight && (
-                    <div className={`process-arrow-${i} hidden md:block w-8 h-[2px] bg-primary/40`} />
-                  )}
-
-                  {/* The numbered circle */}
-                  <div className={`process-circle-${i} relative`}>
-                    {/* Outer ring */}
-                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-full border-2 border-primary/30 flex items-center justify-center bg-background">
-                      {/* Inner filled circle */}
-                      <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-primary flex items-center justify-center shadow-lg">
-                        <span className="font-heading font-bold text-primary-foreground text-sm md:text-base">{step.num}</span>
+                  {/* Circle */}
+                  <div className={`process-circle-${i} shrink-0 relative`}>
+                    <div className="w-[72px] h-[72px] rounded-full border-[3px] border-primary/30 flex items-center justify-center bg-background">
+                      <div className="w-[56px] h-[56px] rounded-full bg-primary flex items-center justify-center shadow-lg">
+                        <span className="font-heading font-bold text-primary-foreground text-lg">{step.num}</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right arrow/connector (desktop only, for left items) */}
-                  {!isRight && (
-                    <div className={`process-arrow-${i} hidden md:block w-8 h-[2px] bg-primary/40`} />
-                  )}
+                  {/* Content */}
+                  <div className={`flex-1 ${isRight ? "text-left" : "text-right"}`}>
+                    <h4 className="font-heading font-bold text-foreground text-lg mb-1">{step.title}</h4>
+                    <p className="font-body text-muted-foreground text-sm max-w-[280px] inline-block">{step.desc}</p>
+                  </div>
                 </div>
+              );
+            })}
+          </div>
+        </div>
 
-                {/* Desktop Right content area */}
-                <div className={`hidden md:flex flex-1 ${isRight ? "justify-start pl-12" : "justify-end pr-12"} ${isRight ? "order-3" : "order-1"}`}>
-                  {isRight ? (
-                    /* Text on right for right-aligned items */
-                    <div className="max-w-xs">
-                      <h4 className="font-heading font-bold text-foreground text-lg mb-1">{step.title}</h4>
-                      <p className="font-body text-muted-foreground text-sm">{step.desc}</p>
+        {/* Timeline - Mobile */}
+        <div className="md:hidden relative">
+          {/* Vertical line */}
+          <div className="absolute left-[28px] top-0 bottom-0 w-[2px] bg-primary/25" />
+
+          <div className="space-y-12">
+            {steps.map((step, i) => (
+              <div key={i} className={`process-step-${i} md:hidden flex items-start gap-5`}>
+                <div className={`process-circle-${i} shrink-0 relative z-10`}>
+                  <div className="w-14 h-14 rounded-full border-[3px] border-primary/30 flex items-center justify-center bg-background">
+                    <div className="w-11 h-11 rounded-full bg-primary flex items-center justify-center shadow-lg">
+                      <span className="font-heading font-bold text-primary-foreground text-sm">{step.num}</span>
                     </div>
-                  ) : (
-                    /* Empty right side for left-aligned items */
-                    <div />
-                  )}
+                  </div>
                 </div>
-
-                {/* MOBILE: Text next to circle */}
-                <div className="md:hidden ml-5 order-3">
+                <div className="pt-2">
                   <h4 className="font-heading font-bold text-foreground text-base mb-1">{step.title}</h4>
                   <p className="font-body text-muted-foreground text-sm">{step.desc}</p>
                 </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </section>
