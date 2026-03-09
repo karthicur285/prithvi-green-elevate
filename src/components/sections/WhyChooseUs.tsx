@@ -13,24 +13,25 @@ const items = [
   { icon: IndianRupee, title: "Competitive Pricing", desc: "Premium quality at cost-effective pricing." },
 ];
 
-// Desktop circle positions (cx, cy) for zigzag wave pattern
-const desktopPositions = [
-  { cx: 100, cy: 200 },
-  { cx: 280, cy: 80 },
-  { cx: 460, cy: 180 },
-  { cx: 640, cy: 60 },
-  { cx: 820, cy: 170 },
+// Positions matching the reference: wave pattern low-high-mid-low-high
+// viewBox is 1000 x 300, circles at specific spots
+const positions = [
+  { cx: 100, cy: 210 },
+  { cx: 300, cy: 70 },
+  { cx: 500, cy: 140 },
+  { cx: 700, cy: 210 },
+  { cx: 900, cy: 60 },
 ];
 
-// Build SVG path through positions with curves
-function buildCurvePath(positions: { cx: number; cy: number }[]) {
-  if (positions.length < 2) return "";
-  let d = `M ${positions[0].cx} ${positions[0].cy}`;
-  for (let i = 0; i < positions.length - 1; i++) {
-    const curr = positions[i];
-    const next = positions[i + 1];
-    const midX = (curr.cx + next.cx) / 2;
-    d += ` C ${midX} ${curr.cy}, ${midX} ${next.cy}, ${next.cx} ${next.cy}`;
+const CIRCLE_R = 38;
+
+function buildCurvePath(pts: { cx: number; cy: number }[]) {
+  let d = `M ${pts[0].cx} ${pts[0].cy}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p = pts[i];
+    const n = pts[i + 1];
+    const mx = (p.cx + n.cx) / 2;
+    d += ` C ${mx} ${p.cy}, ${mx} ${n.cy}, ${n.cx} ${n.cy}`;
   }
   return d;
 }
@@ -40,39 +41,28 @@ const WhyChooseUs = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Draw the curve path on scroll
-      const path = document.querySelector(".why-curve-path") as SVGPathElement;
+      const path = document.querySelector(".why-curve") as SVGPathElement;
       if (path) {
-        const length = path.getTotalLength();
-        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+        const len = path.getTotalLength();
+        gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
         gsap.to(path, {
           strokeDashoffset: 0,
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 70%",
-            end: "bottom 60%",
+            start: "top 75%",
+            end: "bottom 50%",
             scrub: 1,
           },
         });
       }
 
-      // Pop in each circle + text as curve reaches it
       items.forEach((_, i) => {
-        const delay = i * 0.15;
-        gsap.fromTo(`.why-circle-${i}`, { scale: 0, opacity: 0 }, {
+        gsap.fromTo(`.wc-node-${i}`, { scale: 0, opacity: 0 }, {
           scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: `top ${70 - i * 5}%`,
-            toggleActions: "play reverse play reverse",
-          },
-        });
-        gsap.fromTo(`.why-text-${i}`, { opacity: 0, y: 20 }, {
-          opacity: 1, y: 0, duration: 0.5, delay,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: `top ${70 - i * 5}%`,
+            start: `top ${75 - i * 4}%`,
             toggleActions: "play reverse play reverse",
           },
         });
@@ -81,74 +71,92 @@ const WhyChooseUs = () => {
     return () => ctx.revert();
   }, []);
 
-  const curvePath = buildCurvePath(desktopPositions);
-
   return (
-    <section ref={sectionRef} className="why-section section-padding bg-background overflow-hidden">
+    <section ref={sectionRef} className="section-padding bg-background">
       <div className="container-custom">
-        <h2 className="font-heading text-3xl md:text-4xl font-bold text-center text-foreground mb-12 md:mb-20">
+        <h2 className="font-heading text-3xl md:text-4xl font-bold text-center text-foreground mb-8 md:mb-4">
           Why <span className="italic">Choose Us?</span>
         </h2>
 
-        {/* Desktop - zigzag with SVG curve */}
-        <div className="hidden md:block relative" style={{ height: 340 }}>
+        {/* Desktop */}
+        <div className="hidden md:block relative mx-auto" style={{ maxWidth: 960 }}>
+          {/* SVG layer for curve + circles */}
           <svg
-            className="absolute inset-0 w-full h-full pointer-events-none"
-            viewBox="0 0 920 280"
-            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 1000 300"
+            className="w-full"
+            style={{ height: "auto" }}
             fill="none"
           >
+            {/* Curve path */}
             <path
-              className="why-curve-path"
-              d={curvePath}
+              className="why-curve"
+              d={buildCurvePath(positions)}
               stroke="hsl(var(--primary))"
-              strokeWidth="2.5"
-              strokeOpacity="0.4"
+              strokeWidth="2"
+              strokeOpacity="0.3"
               fill="none"
             />
+
+            {/* Circles */}
+            {positions.map((pos, i) => (
+              <g key={i} className={`wc-node-${i}`} style={{ opacity: 0 }}>
+                {/* Outer ring */}
+                <circle cx={pos.cx} cy={pos.cy} r={CIRCLE_R} fill="none" stroke="hsl(var(--primary))" strokeWidth="1.5" strokeOpacity="0.25" />
+                {/* Inner fill */}
+                <circle cx={pos.cx} cy={pos.cy} r={CIRCLE_R - 6} fill="hsl(var(--primary-light))" />
+              </g>
+            ))}
           </svg>
 
-          {items.map((item, i) => {
-            const pos = desktopPositions[i];
-            // Convert SVG coords to percentages for positioning
-            const leftPct = (pos.cx / 920) * 100;
-            const topPct = (pos.cy / 280) * 100;
+          {/* Icon + text overlays positioned absolutely */}
+          <div className="absolute inset-0" style={{ aspectRatio: "1000/300" }}>
+            {items.map((item, i) => {
+              const pos = positions[i];
+              const leftPct = (pos.cx / 1000) * 100;
+              const topPct = (pos.cy / 300) * 100;
+              // Text goes below each circle
+              const textTopPct = topPct + 16;
 
-            return (
-              <div
-                key={i}
-                className="absolute flex flex-col items-center text-center"
-                style={{
-                  left: `${leftPct}%`,
-                  top: `${topPct}%`,
-                  transform: "translate(-50%, -50%)",
-                  width: 180,
-                }}
-              >
-                <div className={`why-circle-${i} opacity-0 w-[72px] h-[72px] rounded-full border-2 border-primary/30 bg-primary-light flex items-center justify-center mb-3 hover:border-primary hover:bg-primary/10 transition-all duration-300 shadow-sm`}>
-                  <item.icon className="w-7 h-7 text-primary" />
+              return (
+                <div key={i} className={`wc-node-${i} absolute`} style={{ left: `${leftPct}%`, top: `${topPct}%`, transform: "translate(-50%, -50%)", opacity: 0 }}>
+                  {/* Icon centered on circle */}
+                  <div className="flex flex-col items-center">
+                    <item.icon className="w-6 h-6 text-primary" />
+                  </div>
                 </div>
-                <div className={`why-text-${i} opacity-0`}>
-                  <h4 className="font-heading font-semibold text-sm text-foreground mb-1">{item.title}</h4>
-                  <p className="font-body text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+              );
+            })}
+
+            {/* Text blocks below circles */}
+            {items.map((item, i) => {
+              const pos = positions[i];
+              const leftPct = (pos.cx / 1000) * 100;
+              const topPct = ((pos.cy + 50) / 300) * 100;
+
+              return (
+                <div
+                  key={`t-${i}`}
+                  className={`wc-node-${i} absolute text-center`}
+                  style={{ left: `${leftPct}%`, top: `${topPct}%`, transform: "translateX(-50%)", width: 160, opacity: 0 }}
+                >
+                  <h4 className="font-heading font-semibold text-xs text-foreground mb-0.5 leading-tight">{item.title}</h4>
+                  <p className="font-body text-[10px] text-muted-foreground leading-snug">{item.desc}</p>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
-        {/* Mobile - 3+2 grid layout */}
-        <div className="md:hidden">
-          <div className="flex flex-wrap justify-center gap-8">
+        {/* Mobile - simple grid */}
+        <div className="md:hidden mt-8">
+          <div className="grid grid-cols-2 gap-6">
             {items.map((item, i) => (
-              <div key={i} className={`why-circle-${i} opacity-0 flex flex-col items-center text-center w-[140px]`}>
-                <div className="w-16 h-16 rounded-full border-2 border-primary/30 bg-primary-light flex items-center justify-center mb-3 shadow-sm">
+              <div key={i} className={`wc-node-${i} flex flex-col items-center text-center`} style={{ opacity: 0 }}>
+                <div className="w-16 h-16 rounded-full border-2 border-primary/25 bg-primary-light flex items-center justify-center mb-2">
                   <item.icon className="w-6 h-6 text-primary" />
                 </div>
-                <div className={`why-text-${i}`}>
-                  <h4 className="font-heading font-semibold text-xs text-foreground mb-1">{item.title}</h4>
-                  <p className="font-body text-[10px] text-muted-foreground">{item.desc}</p>
-                </div>
+                <h4 className="font-heading font-semibold text-xs text-foreground mb-0.5">{item.title}</h4>
+                <p className="font-body text-[10px] text-muted-foreground">{item.desc}</p>
               </div>
             ))}
           </div>
