@@ -8,7 +8,6 @@ import DoorOperatorSection from "@/components/sections/DoorOperatorSection";
 import ComponentsSection from "@/components/sections/ComponentsSection";
 import ProcessSection from "@/components/sections/ProcessSection";
 import ProductCategories from "@/components/sections/ProductCategories";
-import TrustSection from "@/components/sections/TrustSection";
 import ConsultationSection from "@/components/sections/ConsultationSection";
 import IndustriesSection from "@/components/sections/IndustriesSection";
 import ComboOfferSection from "@/components/sections/ComboOfferSection";
@@ -27,7 +26,6 @@ const Home = () => {
         <ComponentsSection />
         <ProcessSection />
         <ProductCategories />
-        <TrustSection />
         <ConsultationSection />
         <IndustriesSection />
         <ComboOfferSection />
