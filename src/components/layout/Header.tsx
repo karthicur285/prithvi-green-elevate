@@ -4,64 +4,52 @@ import { Menu, X, LogIn } from "lucide-react";
 
 const navLinks = [
   { label: "Home", href: "#home" },
-  { label: "Products", href: "#services" },
-  { label: "OEM", href: "#components" },
-  { label: "Special Offer", href: "#combo" },
-  { label: "Contact Us", href: "#consultation" },
+  { label: "Components", href: "#components" },
+  { label: "Complete Kit", href: "#combo" },
+  { label: "Fasteners", href: "#services" },
+  { label: "Signup", href: "#consultation" },
+  { label: "News", href: "#" },
+  { label: "Gallery", href: "#" },
+  { label: "Certifications", href: "#" },
 ];
 
 const Header = () => {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-background/90 backdrop-blur-md shadow-md" : "bg-transparent"
-      }`}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
       <div className="container-custom flex items-center justify-between h-16 md:h-20">
         <a href="#home" className="flex items-center gap-2">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
             <span className="text-primary-foreground font-heading font-bold text-sm">P</span>
           </div>
           <span className="font-heading font-bold text-lg">
-            <span className="text-primary">PRITHVI</span>{" "}
-            <span className="text-foreground">GreenTech</span>
+            <span className="text-foreground">PRITHVI</span>{" "}
+            <span className="text-muted-foreground font-normal italic">GreenTech</span>
           </span>
         </a>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-6">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="font-body text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
+              className="font-body text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
               {link.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center">
-          <button className="btn-primary text-sm py-2 px-5">
-            <LogIn className="w-4 h-4" /> Login
+        <div className="hidden lg:flex items-center">
+          <button className="bg-primary text-primary-foreground px-5 py-2.5 rounded-full font-heading font-semibold text-sm inline-flex items-center gap-2 hover:shadow-lg hover:shadow-primary/30 transition-all">
+            <LogIn className="w-4 h-4" /> Contact us
           </button>
         </div>
 
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2 text-foreground"
+          className="lg:hidden p-2 text-foreground"
         >
           {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -74,7 +62,7 @@ const Header = () => {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-background/95 backdrop-blur-md border-t border-border overflow-hidden"
+            className="lg:hidden bg-white border-t border-border overflow-hidden"
           >
             <div className="container-custom py-4 flex flex-col gap-3">
               {navLinks.map((link) => (
@@ -87,14 +75,14 @@ const Header = () => {
                   {link.label}
                 </a>
               ))}
-              <button className="btn-primary text-sm py-2 px-5 w-fit mt-2">
-                <LogIn className="w-4 h-4" /> Login
+              <button className="bg-primary text-primary-foreground px-5 py-2.5 rounded-full font-heading font-semibold text-sm inline-flex items-center gap-2 w-fit mt-2">
+                <LogIn className="w-4 h-4" /> Contact us
               </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 };
 
