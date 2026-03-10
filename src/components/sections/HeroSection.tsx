@@ -28,12 +28,12 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section id="home" className="relative min-h-[600px] h-[calc(100vh-80px)] max-h-[800px] mt-20 overflow-hidden bg-primary-light">
-      {/* Background image - right side */}
+    <section id="home" className="relative h-[520px] md:h-[580px] lg:h-[620px] mt-16 md:mt-20 overflow-hidden">
+      {/* Full-width background images */}
       {slides.map((slide, i) => (
         <div
           key={i}
-          className={`absolute top-0 right-0 w-full md:w-[65%] h-full transition-opacity duration-1000 ${i === current ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 transition-opacity duration-1000 ${i === current ? "opacity-100" : "opacity-0"}`}
         >
           <img
             src={slide}
@@ -44,44 +44,54 @@ const HeroSection = () => {
         </div>
       ))}
 
-      {/* Diagonal gradient overlay from left */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary-light via-primary-light/95 md:via-primary-light/70 to-transparent z-[1]" />
+      {/* Left gradient overlay — fades from solid light green to transparent */}
+      <div className="absolute inset-0 z-[1]" style={{
+        background: "linear-gradient(to right, hsl(140 40% 92% / 1) 0%, hsl(140 40% 92% / 0.97) 15%, hsl(140 40% 92% / 0.85) 30%, hsl(140 40% 92% / 0.5) 45%, hsl(140 40% 92% / 0.15) 55%, transparent 65%)"
+      }} />
 
       {/* Content */}
-      <div ref={textRef} className="relative z-10 container-custom h-full flex items-center">
-        <div className="max-w-xl">
-          <p className="hero-sub font-heading text-xl md:text-2xl lg:text-3xl text-foreground/80 mb-1 opacity-0">
+      <div ref={textRef} className="relative z-10 container-custom h-full flex flex-col justify-center">
+        <div className="max-w-[520px]">
+          {/* Subtitle */}
+          <p className="hero-sub font-heading text-lg md:text-xl lg:text-2xl text-foreground/70 mb-0 leading-tight opacity-0">
             Elevating Spaces with
           </p>
-          <h1 className="mb-2 opacity-0">
-            <span className="hero-title-green block font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold italic text-primary leading-[1.1]">
+
+          {/* Main title */}
+          <h1 className="mb-1">
+            <span className="hero-title-green block font-heading text-[2.8rem] sm:text-[3.5rem] md:text-[4rem] lg:text-[4.5rem] font-bold italic leading-[1.05] opacity-0" style={{ color: "hsl(152 68% 19%)", fontStyle: "italic" }}>
               Smart &amp;<br />Sustainable
             </span>
-            <span className="hero-title-dark block font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mt-1">
+            <span className="hero-title-dark block font-heading text-2xl sm:text-3xl md:text-[2.2rem] font-bold text-foreground mt-1 opacity-0">
               Lift Solutions
             </span>
           </h1>
-          <div className="hero-desc flex items-start gap-3 mb-8 opacity-0">
-            <div className="w-1 h-14 bg-primary shrink-0 mt-1 rounded-full" />
-            <p className="font-body text-sm md:text-base text-muted-foreground max-w-sm leading-relaxed">
-              High-performance residential, commercial &amp; industrial elevators engineered for{" "}
+
+          {/* Description with left border */}
+          <div className="hero-desc flex items-start gap-3 mt-6 mb-6 opacity-0">
+            <div className="w-[3px] min-h-[48px] bg-primary shrink-0 mt-0.5 rounded-full" />
+            <p className="font-body text-sm md:text-[15px] text-muted-foreground leading-relaxed">
+              High-performance residential, commercial &amp;<br className="hidden sm:block" />
+              industrial elevators engineered for<br className="hidden sm:block" />
               <span className="text-foreground font-semibold">safety, comfort, and energy efficiency.</span>
             </p>
           </div>
-          <button className="hero-btn bg-primary text-primary-foreground px-6 py-3.5 rounded-lg font-heading font-semibold text-sm md:text-base inline-flex items-center gap-2 hover:shadow-lg hover:shadow-primary/30 transition-all opacity-0">
+
+          {/* CTA Button */}
+          <button className="hero-btn bg-primary text-primary-foreground px-6 py-3 rounded-lg font-heading font-semibold text-sm inline-flex items-center gap-2 hover:shadow-lg hover:shadow-primary/30 transition-all opacity-0">
             Book Free Consultation <ArrowRight className="w-4 h-4" />
           </button>
+        </div>
 
-          {/* Slide indicators - centered at bottom */}
-          <div className="flex gap-2 mt-10 justify-center md:justify-start md:ml-[40%]">
-            {slides.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrent(i)}
-                className={`h-3 rounded-full transition-all ${i === current ? "bg-primary w-6" : "bg-muted-foreground/30 w-3"}`}
-              />
-            ))}
-          </div>
+        {/* Slide indicators — bottom center of section */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`h-3 rounded-full transition-all ${i === current ? "bg-primary w-6" : "bg-muted-foreground/40 w-3"}`}
+            />
+          ))}
         </div>
       </div>
     </section>
