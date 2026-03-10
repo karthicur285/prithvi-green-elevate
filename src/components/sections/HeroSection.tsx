@@ -44,32 +44,32 @@ const HeroSection = () => {
         </div>
       ))}
 
-      {/* Left gradient overlay — fades from solid light green to transparent */}
+      {/* Left gradient overlay */}
       <div className="absolute inset-0 z-[1]" style={{
-        background: "linear-gradient(to right, hsl(140 40% 92% / 1) 0%, hsl(140 40% 92% / 0.97) 15%, hsl(140 40% 92% / 0.85) 30%, hsl(140 40% 92% / 0.5) 45%, hsl(140 40% 92% / 0.15) 55%, transparent 65%)"
+        background: "linear-gradient(to right, hsl(140 40% 95% / 1) 0%, hsl(140 40% 95% / 0.98) 20%, hsl(140 40% 95% / 0.88) 35%, hsl(140 40% 95% / 0.55) 50%, hsl(140 40% 95% / 0.15) 62%, transparent 72%)"
       }} />
 
       {/* Content */}
-      <div ref={textRef} className="relative z-10 container-custom h-full flex flex-col justify-center">
-        <div className="max-w-[520px]">
+      <div ref={textRef} className="relative z-10 container-custom h-full flex flex-col justify-start pt-10 md:pt-14">
+        <div className="max-w-[540px]">
           {/* Subtitle */}
-          <p className="hero-sub font-heading text-lg md:text-xl lg:text-2xl text-foreground/70 mb-0 leading-tight opacity-0">
+          <p className="hero-sub font-heading text-2xl md:text-3xl lg:text-[2.2rem] font-bold text-foreground leading-tight mb-0 opacity-0">
             Elevating Spaces with
           </p>
 
-          {/* Main title */}
-          <h1 className="mb-1">
-            <span className="hero-title-green block font-heading text-[2.8rem] sm:text-[3.5rem] md:text-[4rem] lg:text-[4.5rem] font-bold italic leading-[1.05] opacity-0" style={{ color: "hsl(152 68% 19%)", fontStyle: "italic" }}>
-              Smart &amp;<br />Sustainable
-            </span>
-            <span className="hero-title-dark block font-heading text-2xl sm:text-3xl md:text-[2.2rem] font-bold text-foreground mt-1 opacity-0">
-              Lift Solutions
-            </span>
-          </h1>
+          {/* Green italic title */}
+          <span className="hero-title-green block font-heading text-[3.2rem] sm:text-[4rem] md:text-[4.8rem] lg:text-[5.5rem] font-bold leading-[1] opacity-0" style={{ color: "hsl(152 68% 19%)", fontFamily: "'Georgia', 'Times New Roman', serif", fontStyle: "italic" }}>
+            Smart &amp;<br />Sustainable
+          </span>
+
+          {/* Dark title */}
+          <span className="hero-title-dark block font-heading text-2xl sm:text-3xl md:text-[2.2rem] font-bold text-foreground mt-1 opacity-0">
+            Lift Solutions
+          </span>
 
           {/* Description with left border */}
-          <div className="hero-desc flex items-start gap-3 mt-6 mb-6 opacity-0">
-            <div className="w-[3px] min-h-[48px] bg-primary shrink-0 mt-0.5 rounded-full" />
+          <div className="hero-desc flex items-start gap-3 mt-5 mb-5 opacity-0">
+            <div className="w-[3px] min-h-[44px] bg-primary shrink-0 mt-0.5 rounded-full" />
             <p className="font-body text-sm md:text-[15px] text-muted-foreground leading-relaxed">
               High-performance residential, commercial &amp;<br className="hidden sm:block" />
               industrial elevators engineered for<br className="hidden sm:block" />
@@ -83,8 +83,8 @@ const HeroSection = () => {
           </button>
         </div>
 
-        {/* Slide indicators — bottom center of section */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        {/* Slide indicators — bottom right */}
+        <div className="absolute bottom-6 right-[35%] md:right-[40%] flex gap-2 z-10">
           {slides.map((_, i) => (
             <button
               key={i}
