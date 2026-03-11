@@ -44,15 +44,12 @@ const Header = () => {
           ))}
 
           {/* Products with Mega Menu */}
-          <div
-            className="relative"
+          <button
             onMouseEnter={() => setMegaMenuOpen(true)}
-            onMouseLeave={() => setMegaMenuOpen(false)}
+            className="font-body text-sm font-medium text-foreground hover:text-primary transition-colors inline-flex items-center gap-1"
           >
-            <button className="font-body text-sm font-medium text-foreground hover:text-primary transition-colors inline-flex items-center gap-1">
-              Products <ChevronDown className={`w-3.5 h-3.5 transition-transform ${megaMenuOpen ? "rotate-180" : ""}`} />
-            </button>
-          </div>
+            Products <ChevronDown className={`w-3.5 h-3.5 transition-transform ${megaMenuOpen ? "rotate-180" : ""}`} />
+          </button>
 
           {navLinks.slice(1).map((link) => (
             <a
