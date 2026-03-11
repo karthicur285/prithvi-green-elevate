@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, LogIn } from "lucide-react";
+import { Menu, X, LogIn, ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
+import ProductMegaMenu from "@/components/ProductMegaMenu";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -15,11 +17,12 @@ const navLinks = [
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [megaMenuOpen, setMegaMenuOpen] = useState(false);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
       <div className="container-custom flex items-center justify-between h-16 md:h-20">
-        <a href="#home" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
             <span className="text-primary-foreground font-heading font-bold text-sm">P</span>
           </div>
@@ -27,10 +30,31 @@ const Header = () => {
             <span className="text-foreground">PRITHVI</span>{" "}
             <span className="text-muted-foreground font-normal italic">GreenTech</span>
           </span>
-        </a>
+        </Link>
 
         <nav className="hidden lg:flex items-center gap-6">
-          {navLinks.map((link) => (
+          {navLinks.slice(0, 1).map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="font-body text-sm font-medium text-foreground hover:text-primary transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
+
+          {/* Products with Mega Menu */}
+          <div
+            className="relative"
+            onMouseEnter={() => setMegaMenuOpen(true)}
+            onMouseLeave={() => setMegaMenuOpen(false)}
+          >
+            <button className="font-body text-sm font-medium text-foreground hover:text-primary transition-colors inline-flex items-center gap-1">
+              Products <ChevronDown className={`w-3.5 h-3.5 transition-transform ${megaMenuOpen ? "rotate-180" : ""}`} />
+            </button>
+          </div>
+
+          {navLinks.slice(1).map((link) => (
             <a
               key={link.label}
               href={link.href}
@@ -54,6 +78,9 @@ const Header = () => {
           {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
+
+      {/* Mega Menu - positioned relative to header */}
+      <ProductMegaMenu isOpen={megaMenuOpen} onClose={() => setMegaMenuOpen(false)} />
 
       <AnimatePresence>
         {mobileOpen && (
