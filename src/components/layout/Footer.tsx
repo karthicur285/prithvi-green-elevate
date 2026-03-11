@@ -1,102 +1,181 @@
 import { Phone, Mail, MapPin } from "lucide-react";
 
+import cert1 from "@/assets/images/s1-8 3.png";
+import cert2 from "@/assets/images/s4-8 3.png";
+import cert3 from "@/assets/images/s5-8 3.png";
+import cert4 from "@/assets/images/s6-8 3.png";
+import cert5 from "@/assets/images/s1-8 3.png";
+import cert6 from "@/assets/images/s4-8 3.png";
+import cert7 from "@/assets/images/s5-8 3.png";
+import cert8 from "@/assets/images/s6-8 3.png";
+import cert9 from "@/assets/images/s1-8 3.png";
+import cert10 from "@/assets/images/s4-8 3.png";
+import cert11 from "@/assets/images/s5-8 3.png";
+import cert12 from "@/assets/images/s6-8 3.png";
+
+const certifications = [
+  cert1,
+  cert2,
+  cert3,
+  cert4,
+  cert5,
+  cert6,
+  cert7,
+  cert8,
+  cert9,
+  cert10,
+  cert11,
+  cert12,
+];
+
 const Footer = () => {
   return (
-    <footer className="bg-[hsl(215,30%,12%)] text-[hsl(0,0%,95%)]">
-      <div className="container-custom py-12 md:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
-          {/* Logo & description */}
+    <footer className="bg-[#0c1c34] text-gray-200">
+
+      <div className="container mx-auto px-6 pt-16 pb-6">
+
+        {/* TOP SECTION */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+
+          {/* LOGO + DESCRIPTION */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 bg-primary rounded-full flex items-center justify-center">
-                <span className="text-primary-foreground font-heading font-bold text-sm">P</span>
-              </div>
-              <span className="font-heading font-bold text-lg tracking-wide">
-                <span className="text-[hsl(0,0%,95%)]">PRITHVI</span>{" "}
-                <span className="text-primary">Green</span>
-                <span className="text-[hsl(0,0%,95%)]">Tech</span>
-              </span>
-            </div>
-            <p className="text-[hsl(0,0%,60%)] text-sm font-body leading-relaxed mt-3">
-              Innovating vertical transportation with sustainable, high-performance elevator components for the modern world.
+
+            {/* LOGO FROM PUBLIC */}
+            <img
+              src="/logo.png"
+              alt="Prithvi Greentech"
+              className="h-10 mb-4"
+            />
+
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Innovating vertical transportation with sustainable,
+              high-performance elevator components for the modern world.
             </p>
-            {/* Social Icons */}
-            <div className="flex items-center gap-3 mt-5">
-              {["fb", "ig", "in"].map((s) => (
-                <a
-                  key={s}
-                  href="#"
-                  className="w-9 h-9 rounded-full border border-[hsl(0,0%,30%)] flex items-center justify-center hover:border-primary hover:bg-primary/10 transition-colors"
+
+            {/* SOCIAL ICONS */}
+            <div className="flex gap-3 mt-6">
+
+              {["f", "in", "ig"].map((s, i) => (
+                <div
+                  key={i}
+                  className="w-9 h-9 flex items-center justify-center rounded bg-[#122845] hover:bg-green-600 transition"
                 >
-                  <span className="text-[hsl(0,0%,60%)] text-xs font-body">{s}</span>
-                </a>
+                  <span className="text-xs">{s}</span>
+                </div>
               ))}
+
             </div>
+
           </div>
 
-          {/* Quick Links */}
+
+          {/* QUICK LINKS */}
           <div>
-            <h4 className="font-heading font-semibold text-base mb-5 text-[hsl(0,0%,95%)]">Quick Links</h4>
-            <ul className="space-y-3">
-              {["About Us", "Products", "Engineering", "Sustainability", "Contact"].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-[hsl(0,0%,60%)] hover:text-primary text-sm font-body transition-colors">
-                    {item}
-                  </a>
-                </li>
-              ))}
+
+            <h4 className="font-semibold mb-5 text-white">
+              Quick Links
+            </h4>
+
+            <ul className="space-y-3 text-gray-400 text-sm">
+
+              <li><a href="#" className="hover:text-green-500">About Us</a></li>
+              <li><a href="#" className="hover:text-green-500">Products</a></li>
+              <li><a href="#" className="hover:text-green-500">Engineering</a></li>
+              <li><a href="#" className="hover:text-green-500">Sustainability</a></li>
+              <li><a href="#" className="hover:text-green-500">Contact</a></li>
+
             </ul>
+
           </div>
 
-          {/* Products */}
+
+          {/* PRODUCTS */}
           <div>
-            <h4 className="font-heading font-semibold text-base mb-5 text-[hsl(0,0%,95%)]">Products</h4>
-            <ul className="space-y-3">
-              {["Traction Machines", "Door Systems", "Control Panels", "Safety Components", "Cabins & Finishes"].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-[hsl(0,0%,60%)] hover:text-primary text-sm font-body transition-colors">
-                    {item}
-                  </a>
-                </li>
-              ))}
+
+            <h4 className="font-semibold mb-5 text-white">
+              Products
+            </h4>
+
+            <ul className="space-y-3 text-gray-400 text-sm">
+
+              <li><a href="#" className="hover:text-green-500">Traction Machines</a></li>
+              <li><a href="#" className="hover:text-green-500">Door Systems</a></li>
+              <li><a href="#" className="hover:text-green-500">Control Panels</a></li>
+              <li><a href="#" className="hover:text-green-500">Safety Components</a></li>
+              <li><a href="#" className="hover:text-green-500">Cabins & Finishes</a></li>
+
             </ul>
+
           </div>
 
-          {/* Contact */}
+
+          {/* CONTACT */}
           <div>
-            <h4 className="font-heading font-semibold text-base mb-5 text-[hsl(0,0%,95%)]">Contact</h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-[hsl(0,0%,60%)] text-sm font-body">
-                <MapPin className="w-4 h-4 mt-0.5 text-primary shrink-0" />
-                <span>123 Industrial Estate, Tech Hub City, Maharashtra, India – 400001</span>
+
+            <h4 className="font-semibold mb-5 text-white">
+              Contact
+            </h4>
+
+            <ul className="space-y-4 text-gray-400 text-sm">
+
+              <li className="flex gap-3">
+                <MapPin className="w-4 h-4 text-green-500 mt-1"/>
+                <span>
+                  123 Industrial Estate, Tech Hub City,
+                  Maharashtra, India - 400001
+                </span>
               </li>
-              <li className="flex items-center gap-3 text-[hsl(0,0%,60%)] text-sm font-body">
-                <Phone className="w-4 h-4 text-primary shrink-0" />
+
+              <li className="flex gap-3">
+                <Phone className="w-4 h-4 text-green-500"/>
                 <span>+91 98765 43210</span>
               </li>
-              <li className="flex items-center gap-3 text-[hsl(0,0%,60%)] text-sm font-body">
-                <Mail className="w-4 h-4 text-primary shrink-0" />
+
+              <li className="flex gap-3">
+                <Mail className="w-4 h-4 text-green-500"/>
                 <span>sales@prithvigreentech.com</span>
               </li>
+
             </ul>
+
           </div>
+
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-[hsl(0,0%,20%)] mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[hsl(0,0%,45%)] text-xs sm:text-sm font-body text-center sm:text-left">
-            © 2023 Prithvi Greentech Elevators Pvt Ltd. All rights reserved.
-          </p>
-          <div className="flex items-center gap-4 sm:gap-6">
-            <a href="#" className="text-[hsl(0,0%,45%)] hover:text-primary text-xs sm:text-sm font-body transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-[hsl(0,0%,45%)] hover:text-primary text-xs sm:text-sm font-body transition-colors">
-              Terms of Service
-            </a>
-          </div>
+
+        {/* CERTIFICATION ICONS (NO BORDER / NO OPACITY) */}
+        <div className="mt-12 flex flex-wrap justify-center gap-12">
+
+          {certifications.map((icon, i) => (
+
+            <img
+              key={i}
+              src={icon}
+              alt="Certification"
+              className="h-10 w-auto"
+            />
+
+          ))}
+
         </div>
+
+
+        {/* BOTTOM BAR */}
+        <div className="border-t border-gray-700 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+
+          <p>
+            © 2026 Prithvi Greentech Elevators Pvt Ltd. All rights reserved.
+          </p>
+
+          <div className="flex gap-6 mt-4 md:mt-0">
+            <a href="#" className="hover:text-green-500">Privacy Policy</a>
+            <a href="#" className="hover:text-green-500">Terms of Service</a>
+          </div>
+
+        </div>
+
       </div>
+
     </footer>
   );
 };

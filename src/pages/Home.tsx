@@ -2,6 +2,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
+import Glass from "@/components/sections/GlassSection";
 import WhyChooseUs from "@/components/sections/WhyChooseUs";
 import ServicesSection from "@/components/sections/ServicesSection";
 import DoorOperatorSection from "@/components/sections/DoorOperatorSection";
@@ -12,6 +13,7 @@ import ConsultationSection from "@/components/sections/ConsultationSection";
 import IndustriesSection from "@/components/sections/IndustriesSection";
 import ComboOfferSection from "@/components/sections/ComboOfferSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
+import FAQ from "@/components/sections/FAQ";
 
 const Home = () => {
   return (
@@ -20,16 +22,17 @@ const Home = () => {
       <main>
         <HeroSection />
         <AboutSection />
+        <Glass />
+        <ComponentsSection />
+        <DoorOperatorSection />
         <WhyChooseUs />
         <ServicesSection />
-        <DoorOperatorSection />
-        <ComponentsSection />
-        <ProcessSection />
         <ProductCategories />
         <ConsultationSection />
         <IndustriesSection />
         <ComboOfferSection />
         <TestimonialsSection />
+        <FAQ />
       </main>
       <Footer />
     </div>

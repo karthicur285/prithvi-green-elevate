@@ -52,9 +52,9 @@ const Header = () => {
         </nav>
 
         <div className="hidden md:flex items-center">
-          <button className="btn-primary text-sm py-2 px-5">
+          <a href="/login" className="btn-primary text-sm py-2 px-5 inline-flex items-center">
             <LogIn className="w-4 h-4" /> Login
-          </button>
+          </a>
         </div>
 
         <button
@@ -85,9 +85,9 @@ const Header = () => {
                   {link.label}
                 </a>
               ))}
-              <button className="btn-primary text-sm py-2 px-5 w-fit mt-2">
+              <a href="/login" className="btn-primary text-sm py-2 px-5 w-fit mt-2 inline-flex items-center">
                 <LogIn className="w-4 h-4" /> Login
-              </button>
+              </a>
             </div>
           </motion.div>
         )}
