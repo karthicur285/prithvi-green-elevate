@@ -7,6 +7,7 @@ import WhyChooseUs from "@/components/sections/WhyChooseUs";
 import ServicesSection from "@/components/sections/ServicesSection";
 import DoorOperatorSection from "@/components/sections/DoorOperatorSection";
 import ComponentsSection from "@/components/sections/ComponentsSection";
+import ComponentSection from "@/components/sections/ComponentSection";
 import ProcessSection from "@/components/sections/ProcessSection";
 import ProductCategories from "@/components/sections/ProductCategories";
 import ConsultationSection from "@/components/sections/ConsultationSection";
@@ -25,6 +26,7 @@ const Home = () => {
         <Glass />
         <ComponentsSection />
         <DoorOperatorSection />
+        <ComponentSection />
         <WhyChooseUs />
         <ServicesSection />
         <ProductCategories />
