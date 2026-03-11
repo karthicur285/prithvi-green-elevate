@@ -1,152 +1,151 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Waves, Building, HandCoins, Crown } from "lucide-react";
-import gearShape from "@/assets/images/gear-shape.png";
-import circleRing from "@/assets/images/circle-ring.png";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { DoorOpen, Cog, Shield, Monitor, HandCoins, ChevronRight } from "lucide-react";
 
-gsap.registerPlugin(ScrollTrigger);
-
-const series = [
-  { icon: Waves, name: "Performance Pro Series", num: "01" },
-  { icon: Building, name: "Compact Series", num: "02" },
-  { icon: HandCoins, name: "Economy Series", num: "03" },
-  { icon: Crown, name: "Standard Series", num: "04" },
+const categories = [
+  {
+    icon: DoorOpen,
+    title: "Elevator Door",
+    series: ["Compact Series", "Economy Series", "Standard Series", "Performance Pro Series"],
+  },
+  {
+    icon: Cog,
+    title: "Traction Machines",
+    series: ["Gearless PM Motors", "Geared Machines", "High-Speed Series"],
+  },
+  {
+    icon: Shield,
+    title: "Safety Components",
+    series: ["Overspeed Governors", "Safety Gears", "Buffers & Sensors"],
+  },
+  {
+    icon: Monitor,
+    title: "Control Systems",
+    series: ["Integrated Controllers", "Smart Panels", "IoT Modules"],
+  },
+  {
+    icon: HandCoins,
+    title: "Cabin & Interiors",
+    series: ["Stainless Steel Cabins", "Glass Cabins", "Custom Interiors"],
+  },
 ];
 
 const ComponentsSection = () => {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const pinRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: pinRef.current,
-          start: "50% 50%",
-          endTrigger: wrapRef.current,
-          end: "bottom 50%",
-          scrub: 1,
-          pin: true,
-        },
-      });
-
-      // Rotate gear throughout the scroll
-      tl.to(".comp-gear", { rotateZ: 360, ease: "none" }, 0);
-
-      // Fade out heading
-      tl.to(".comp-heading", { opacity: 0, y: -30, duration: 0.15 }, 0);
-
-      // Reveal each item sequentially
-      series.forEach((_, i) => {
-        const start = 0.15 + i * 0.2;
-        tl.fromTo(
-          `.comp-row-${i}`,
-          { opacity: 0, x: -60 },
-          { opacity: 1, x: 0, duration: 0.15, ease: "power2.out" },
-          start
-        );
-        tl.fromTo(
-          `.comp-badge-${i}`,
-          { scale: 0, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 0.1, ease: "back.out(1.7)" },
-          start + 0.05
-        );
-      });
-    }, wrapRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const numPositions: React.CSSProperties[] = [
-    { top: "-6%", right: "20%" },
-    { top: "25%", right: "-6%" },
-    { bottom: "25%", right: "-6%" },
-    { bottom: "-6%", right: "20%" },
-  ];
+  const [active, setActive] = useState(0);
 
   return (
-    <div id="pin-windmill-wrap" ref={wrapRef}>
-      {/* Extra scroll height for the pin duration */}
-      <div
-        id="pin-windmill"
-        ref={pinRef}
-        className="min-h-screen bg-secondary flex items-center overflow-hidden"
-      >
-        <div className="container-custom w-full py-12">
-          {/* Heading - fades out on scroll */}
-          <div className="comp-heading text-center mb-12 md:mb-16">
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-primary-dark mb-1">
-              Total Elevator Component
+    <section className="section-padding bg-secondary">
+      <div className="container-custom">
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+          {/* Left - Heading */}
+          <div className="lg:w-[38%] flex flex-col justify-center">
+            <h2 className="font-heading text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-foreground leading-tight mb-4">
+              <span className="italic text-primary">Complete</span> Elevator{" "}
+              <br className="hidden md:block" />
+              Components <span className="italic text-primary">Solution</span>{" "}
+              <br className="hidden md:block" />
+              Provider
             </h2>
-            <h3 className="font-heading text-xl md:text-2xl font-semibold text-foreground mb-2">
-              Manufacturing Solutions
-            </h3>
-            <p className="font-body text-muted-foreground text-sm max-w-lg mx-auto">
-              Advanced engineering. Reliable performance. End-to-end elevator
-              component expertise.
+            <p className="font-body text-muted-foreground text-sm mb-6 max-w-sm">
+              End-to-end manufacturing expertise delivering reliable, certified
+              elevator components for every project scale.
             </p>
+            <a
+              href="#consultation"
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-heading font-semibold text-sm px-6 py-3 rounded-lg w-fit hover:opacity-90 transition-opacity"
+            >
+              Explore More
+              <ChevronRight className="w-4 h-4" />
+            </a>
           </div>
 
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16">
-            {/* Left - Series list (hidden initially, revealed on scroll) */}
-            <div className="space-y-6 md:space-y-8 flex-1 max-w-md w-full">
-              {series.map((s, i) => (
-                <div
-                  key={i}
-                  className={`comp-row-${i} opacity-0 flex items-center gap-4`}
-                >
-                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-primary flex items-center justify-center shrink-0">
-                    <s.icon className="w-5 h-5 md:w-6 md:h-6 text-primary-foreground" />
-                  </div>
-                  <span className="font-heading font-semibold text-sm md:text-base text-foreground">
-                    {s.name}
-                  </span>
-                  <div className="flex-1 border-t border-dashed border-primary/30" />
-                  <span className="font-heading font-bold text-primary text-lg md:text-xl">
-                    {s.num}
-                  </span>
-                </div>
-              ))}
-            </div>
+          {/* Right - Interactive category list */}
+          <div className="lg:w-[62%] w-full">
+            <div className="flex flex-col gap-0">
+              {categories.map((cat, i) => {
+                const isActive = active === i;
+                return (
+                  <motion.div
+                    key={i}
+                    onMouseEnter={() => setActive(i)}
+                    onClick={() => setActive(i)}
+                    className={`group cursor-pointer border-b border-border transition-colors duration-300 ${
+                      isActive ? "bg-primary/5" : "bg-transparent hover:bg-primary/[0.02]"
+                    }`}
+                  >
+                    <div className="flex items-center gap-4 py-4 md:py-5 px-4 md:px-6">
+                      {/* Accent bar */}
+                      <div
+                        className={`w-1 self-stretch rounded-full transition-colors duration-300 ${
+                          isActive ? "bg-primary" : "bg-border"
+                        }`}
+                      />
 
-            {/* Right - Gear + Circle */}
-            <div className="relative w-56 h-56 md:w-72 md:h-72 lg:w-96 lg:h-96 shrink-0">
-              <img
-                src={gearShape}
-                alt=""
-                className="comp-gear absolute inset-0 w-full h-full object-contain"
-                style={{ transformOrigin: "center center" }}
-              />
-              <img
-                src={circleRing}
-                alt=""
-                className="absolute inset-[10%] w-[80%] h-[80%] object-contain z-10"
-              />
-              <div className="absolute inset-0 flex items-center justify-center z-20">
-                <p className="font-heading font-bold text-foreground text-sm md:text-lg lg:text-xl leading-tight text-center">
-                  Elevator<br />Door<br />Solutions
-                </p>
-              </div>
+                      {/* Icon */}
+                      <div
+                        className={`w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300 ${
+                          isActive
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-muted text-muted-foreground"
+                        }`}
+                      >
+                        <cat.icon className="w-5 h-5 md:w-6 md:h-6" />
+                      </div>
 
-              {series.map((s, i) => (
-                <div
-                  key={i}
-                  className={`comp-badge-${i} opacity-0 absolute z-30 w-9 h-9 md:w-11 md:h-11 rounded-full bg-background shadow-lg flex items-center justify-center border-2 border-primary/20`}
-                  style={numPositions[i]}
-                >
-                  <span className="font-heading font-bold text-primary text-xs md:text-sm">
-                    {s.num}
-                  </span>
-                </div>
-              ))}
+                      {/* Title */}
+                      <h3
+                        className={`font-heading font-semibold text-base md:text-lg transition-colors duration-300 flex-1 ${
+                          isActive ? "text-primary" : "text-foreground"
+                        }`}
+                      >
+                        {cat.title}
+                      </h3>
+
+                      {/* Arrow */}
+                      <ChevronRight
+                        className={`w-5 h-5 transition-all duration-300 ${
+                          isActive
+                            ? "text-primary translate-x-1"
+                            : "text-muted-foreground"
+                        }`}
+                      />
+                    </div>
+
+                    {/* Expandable series list */}
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          className="overflow-hidden"
+                        >
+                          <div className="flex flex-wrap gap-2 pb-4 pl-[4.5rem] md:pl-[5.5rem] pr-4">
+                            {cat.series.map((s, j) => (
+                              <motion.span
+                                key={j}
+                                initial={{ opacity: 0, y: 8 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: j * 0.06, duration: 0.25 }}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border border-primary/20 text-foreground font-body text-xs md:text-sm shadow-sm"
+                              >
+                                <span className="w-1.5 h-1.5 rounded-[2px] bg-primary shrink-0" />
+                                {s}
+                              </motion.span>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>
       </div>
-      {/* Spacer for scroll length */}
-      <div className="h-[150vh]" />
-    </div>
+    </section>
   );
 };
 
